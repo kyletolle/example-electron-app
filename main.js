@@ -1,10 +1,19 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 
 const handleSetTitle  = (event, title) => {
   const webContents = event.sender;
   const win = BrowserWindow.fromWebContents(webContents);
   win.setTitle(title);
+};
+
+const handleFileOpen = async () => {
+  const { canceled, filePaths } = await dialog.showOpenDialog();
+  if (canceled) {
+    return;
+  } else {
+    return filePaths[0];
+  }
 }
 
 const createWindow = () => {
@@ -20,6 +29,7 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
   ipcMain.on('set-title', handleSetTitle);
+  ipcMain.handle('dialog:openFile', handleFileOpen);
   createWindow();
 
   app.on('activate', () => {

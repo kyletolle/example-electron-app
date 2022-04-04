@@ -1,0 +1,15 @@
+{
+  "name": "example-electron-app",
+  "version": "0.0.1",
+  "description": "An example electron app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kyle Tolle",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^18.0.1"
+  }
+}

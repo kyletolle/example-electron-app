@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const path = require('path');
 
 const handleSetTitle  = (event, title) => {
@@ -17,14 +17,32 @@ const handleFileOpen = async () => {
 }
 
 const createWindow = () => {
-  const win = new BrowserWindow({
+  const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     }
   });
-  win.loadFile('index.html');
+
+  const menu = Menu.buildFromTemplate([
+    {
+      label: app.name,
+      submenu: [
+        {
+          click: () => mainWindow.webContents.send('update-counter', 1),
+          label: 'Increment',
+        },
+        {
+          click: () => mainWindow.webContents.send('update-counter', -1),
+          label: 'Decrement',
+        }
+      ]
+    }
+  ]);
+  Menu.setApplicationMenu(menu);
+
+  mainWindow.loadFile('index.html');
 };
 
 app.whenReady().then(() => {

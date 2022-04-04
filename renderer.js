@@ -11,3 +11,10 @@ openFileButton.addEventListener('click', async () => {
   const filePath = await window.electronApi.openFile();
   filePathElement.innerText = filePath;
 });
+
+const counter = document.getElementById('counter');
+window.electronApi.onUpdateCounter((_event, value) => {
+  const oldValue = Number(counter.innerText);
+  const newValue = oldValue + value;
+  counter.innerText = newValue;
+})

@@ -48,6 +48,9 @@ const createWindow = () => {
 app.whenReady().then(() => {
   ipcMain.on('set-title', handleSetTitle);
   ipcMain.handle('dialog:openFile', handleFileOpen);
+  ipcMain.on('counter-value', (_event, value) => {
+    console.log("Counter:", value);
+  })
   createWindow();
 
   app.on('activate', () => {
